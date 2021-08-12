@@ -1,0 +1,42 @@
+{
+    "alpha": 0.25,
+    "break": 2000,
+    "axis": [
+        0,
+        1
+    ],
+    "xrange": [
+        -20.0,
+        20.0
+    ],
+    "yrange": [
+        -20.0,
+        20.0
+    ],
+    "x0": [
+        0.5,
+        0.5
+    ],
+    "fixed": [
+        -0.162002,
+        0.130486
+    ],
+    "params": [
+        1.542000,
+        0.15000
+    ],
+    "dparams": [
+        0.01,
+        0.01
+    ],
+    "period": 5,
+    "_comment_Newton_param": "dif_strip is used for numerical differentiation(if it's enabled)",
+    "inc_param": 1,
+    "var_param": 0,
+    "delta_inc": 0.001,
+    "inc_iter": 1000,
+    "max_iter": 32,
+    "dif_strip": 1e-04,
+    "eps": 1e-08,
+    "explode": 100
+}
