@@ -15,6 +15,7 @@ def main():
     ds = dynamical_system.DynamicalSystem(json_data)
 
     vp = sp.matrix2numpy(ds.x0).astype(np.float64)
+    vp = np.vstack((vp, float(ds.params[ds.var_param])))
 
     for p in range(ds.inc_iter):
         for i in range(ds.max_iter):
@@ -26,19 +27,19 @@ def main():
             if (norm < ds.eps):
                 print("converged")
                 print(vn)
-                print(np.linalg.eigvals(ds.dTldx))
                 vp = vn
+                ds.params[ds.var_param] = vn[ds.xdim]
                 break
             elif (norm > ds.explode):
                 print("explode")
                 sys.exit()
             vp = vn
+            ds.params[ds.var_param] = vn[ds.xdim]
         else:
             print("iter over")
             print(F)
             exit()
         ds.params[ds.inc_param] += ds.delta_inc
-
 
 if __name__ == '__main__':
     main()
