@@ -1,5 +1,4 @@
 import sys
-import numpy as np
 import sympy as sp
 import json
 import dynamical_system
@@ -14,19 +13,27 @@ def main():
     json_data = json.load(fd)
     ds = dynamical_system.DynamicalSystem(json_data)
 
-    vp = sp.matrix2numpy(ds.x0).astype(np.float64)
-    vp = np.vstack((vp, float(ds.params[ds.var_param])))
+    vp = ds.x0
+    vp = vp.col_join(sp.Matrix([ds.params[ds.var_param]]))
+
+    f = open('out', 'w')
 
     for p in range(ds.inc_iter):
         for i in range(ds.max_iter):
             ds_func.store_state(vp, ds)
             F = ds_func.newton_func(ds)
             J = ds_func.newton_jac(ds)
-            vn = np.linalg.solve(J, -F) + vp
-            norm = np.linalg.norm(vn - vp)
+            delta = sp.Matrix(list(sp.linsolve((J, -F)))).transpose()
+            vn = delta + vp
+            norm = (vn - vp).norm()
             if (norm < ds.eps):
-                print("converged")
-                print(vn)
+                print("************************************************")
+                print(str(p) + ":converged : (iter = " + str(i + 1) + ")")
+                print(ds.params[0:sp.shape(ds.params)[0]])
+                print(vn[0:ds.xdim])
+                print(ds.dTldx.eigenvals())
+                print("************************************************")
+                f.write(str(ds.params[0]) + " " + str(ds.params[1]) + "\n")
                 vp = vn
                 ds.params[ds.var_param] = vn[ds.xdim]
                 break
@@ -40,6 +47,8 @@ def main():
             print(F)
             exit()
         ds.params[ds.inc_param] += ds.delta_inc
+    f.close()
+
 
 if __name__ == '__main__':
     main()

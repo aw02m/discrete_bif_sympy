@@ -25,6 +25,7 @@ def main():
             norm = np.linalg.norm(vn - vp)
             if (norm < ds.eps):
                 print("converged")
+                print(ds.params)
                 print(vn)
                 print(np.linalg.eigvals(ds.dTldx))
                 vp = vn

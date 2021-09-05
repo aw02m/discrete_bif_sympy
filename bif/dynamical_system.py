@@ -1,11 +1,10 @@
-import numpy as np
 import sympy as sp
 
 
 def map(x, p):
     ret = sp.Matrix([(p[0] * x[0] + p[1] * x[1]) /
                      (1 + sp.exp(-p[4] *
-                                 (p[2] * x[0] + p[1] * x[1]))),
+                                 (p[0] * x[0] + p[1] * x[1]))),
                      (p[2] * x[0] + p[3] * x[1]) /
                      (1 + sp.exp(-p[4] *
                                  (p[2] * x[0] + p[3] * x[1])))
